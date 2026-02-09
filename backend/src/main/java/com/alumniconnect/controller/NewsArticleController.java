@@ -17,7 +17,10 @@ public class NewsArticleController {
     private NewsArticleService newsArticleService;
 
     @GetMapping
-    public List<NewsArticle> getAllNewsArticles() {
+    public List<NewsArticle> getAllNewsArticles(@RequestParam(required = false) String search) {
+        if (search != null && !search.isEmpty()) {
+            return newsArticleService.search(search);
+        }
         return newsArticleService.findAll();
     }
 
@@ -30,7 +33,6 @@ public class NewsArticleController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public NewsArticle updateNewsArticle(@PathVariable Long id, @RequestBody NewsArticle newsArticle) {
-        // Additional logic to ensure the ID is set correctly
         newsArticle.setId(id);
         return newsArticleService.save(newsArticle);
     }

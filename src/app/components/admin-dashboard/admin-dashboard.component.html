@@ -1,32 +1,71 @@
 <div class="admin-dashboard-container">
   <h2>Administrator Dashboard</h2>
-  <h3>Theme Customization</h3>
 
-  <div *ngIf="currentTheme$ | async as theme" class="theme-settings">
-    <div class="setting-group">
-      <label for="logoUrl">School Logo URL:</label>
-      <input type="text" id="logoUrl" [value]="theme.logoUrl" placeholder="e.g., assets/logos/myschool-logo.png">
-      <img [src]="theme.logoUrl" alt="Current Logo" class="preview-image">
-    </div>
+  <nav class="admin-nav">
+    <button [class.active]="selectedAdminView === 'theme'" (click)="selectView('theme')">Theme Customization</button>
+    <button [class.active]="selectedAdminView === 'members'" (click)="selectView('members')">Member Management</button>
+    <button [class.active]="selectedAdminView === 'news'" (click)="selectView('news')">News Management</button>
+    <button [class.active]="selectedAdminView === 'events'" (click)="selectView('events')">Events Management</button>
+    <button [class.active]="selectedAdminView === 'photos'" (click)="selectView('photos')">Photo Albums</button>
+    <button [class.active]="selectedAdminView === 'email'" (click)="selectView('email')">Email Newsletter</button>
+  </nav>
 
-    <div class="setting-group">
-      <label for="colorPrimary">Primary Color:</label>
-      <input type="color" id="colorPrimary" [value]="theme.colorPrimary">
-      <span>{{ theme.colorPrimary }}</span>
-    </div>
+  <div class="admin-content">
+    <!-- Theme Customization Section -->
+    <section *ngIf="selectedAdminView === 'theme'" class="dashboard-section">
+      <h3>Theme Customization</h3>
+      <div *ngIf="currentTheme$ | async as theme" class="theme-settings">
+        <div class="setting-group">
+          <label for="logoUrl">School Logo URL:</label>
+          <input type="text" id="logoUrl" [value]="theme.logoUrl" placeholder="e.g., assets/logos/myschool-logo.png">
+          <img [src]="theme.logoUrl" alt="Current Logo" class="preview-image">
+        </div>
 
-    <div class="setting-group">
-      <label for="colorSecondary">Secondary Color:</label>
-      <input type="color" id="colorSecondary" [value]="theme.colorSecondary">
-      <span>{{ theme.colorSecondary }}</span>
-    </div>
+        <div class="setting-group">
+          <label for="colorPrimary">Primary Color:</label>
+          <input type="color" id="colorPrimary" [value]="theme.colorPrimary">
+          <span>{{ theme.colorPrimary }}</span>
+        </div>
 
-    <div class="setting-group">
-      <label for="bannerImageUrl">Banner Image URL:</label>
-      <input type="text" id="bannerImageUrl" [value]="theme.bannerImageUrl || ''" placeholder="e.g., assets/banners/myschool-banner.jpg">
-      <img *ngIf="theme.bannerImageUrl" [src]="theme.bannerImageUrl" alt="Current Banner" class="preview-image">
-    </div>
+        <div class="setting-group">
+          <label for="colorSecondary">Secondary Color:</label>
+          <input type="color" id="colorSecondary" [value]="theme.colorSecondary">
+          <span>{{ theme.colorSecondary }}</span>
+        </div>
 
-    <button class="save-button">Save Changes (Not yet functional)</button>
+        <div class="setting-group">
+          <label for="bannerImageUrl">Banner Image URL:</label>
+          <input type="text" id="bannerImageUrl" [value]="theme.bannerImageUrl || ''" placeholder="e.g., assets/banners/myschool-banner.jpg">
+          <img *ngIf="theme.bannerImageUrl" [src]="theme.bannerImageUrl" alt="Current Banner" class="preview-image">
+        </div>
+
+        <button class="save-button">Save Changes (Not yet functional)</button>
+      </div>
+    </section>
+
+    <!-- Member Management Section -->
+    <section *ngIf="selectedAdminView === 'members'" class="dashboard-section">
+      <app-member-admin></app-member-admin>
+    </section>
+
+    <!-- News Management Section -->
+    <section *ngIf="selectedAdminView === 'news'" class="dashboard-section">
+      <app-news-admin></app-news-admin>
+    </section>
+
+    <!-- Events Management Section -->
+    <section *ngIf="selectedAdminView === 'events'" class="dashboard-section">
+      <app-events-admin></app-events-admin>
+    </section>
+
+    <!-- Photo Album Management Section -->
+    <section *ngIf="selectedAdminView === 'photos'" class="dashboard-section">
+      <app-photo-admin></app-photo-admin>
+    </section>
+
+    <!-- Email Newsletter Section -->
+    <section *ngIf="selectedAdminView === 'email'" class="dashboard-section">
+      <app-email-admin></app-email-admin>
+    </section>
   </div>
 </div>

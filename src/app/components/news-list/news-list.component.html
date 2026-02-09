@@ -1,5 +1,10 @@
 <div class="news-list-container">
   <h2>Latest News & Announcements</h2>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search news by title, content, or author..." (input)="onSearch($event)">
+  </div>
+
   <div *ngIf="(newsArticles$ | async)?.length > 0; else noNews">
     <div *ngFor="let article of newsArticles$ | async" class="news-card">
       <img *ngIf="article.imageUrl" [src]="article.imageUrl" alt="Image for {{ article.title }}" class="news-image">
@@ -16,6 +21,6 @@
     </div>
   </div>
   <ng-template #noNews>
-    <p>No news or announcements at this time. Please check back later!</p>
+    <p class="no-results">No news or announcements found matching your search criteria.</p>
   </ng-template>
 </div>

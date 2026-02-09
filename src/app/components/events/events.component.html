@@ -1,5 +1,10 @@
 <div class="events-container">
   <h2>Upcoming Events</h2>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search events by title, location, or description..." (input)="onSearch($event)">
+  </div>
+
   <div *ngIf="(events$ | async)?.length > 0; else noEvents">
     <div *ngFor="let event of events$ | async" class="event-card">
       <div class="event-date">
@@ -14,6 +19,6 @@
     </div>
   </div>
   <ng-template #noEvents>
-    <p>There are no upcoming events at this time. Please check back later!</p>
+    <p class="no-results">No upcoming events found matching your search criteria.</p>
   </ng-template>
 </div>

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 export interface User {
+  id: number;
   username: string;
-  role: 'alumni' | 'admin';
+  roles: string[];
   token: string;
 }
 
@@ -12,16 +15,11 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = 'http://localhost:8080/api/auth';
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
 
-  // Mock users for demonstration
-  private mockUsers: User[] = [
-    { username: 'alumniuser', role: 'alumni', token: 'mock-alumni-token' },
-    { username: 'adminuser', role: 'admin', token: 'mock-admin-token' }
-  ];
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
     const storedUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser ? JSON.parse(storedUser) : null);
     this.currentUser = this.currentUserSubject.asObservable();
@@ -32,31 +30,32 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<boolean> {
-    // In a real app, this would be an API call to authenticate
-    const user = this.mockUsers.find(u => u.username === username && password === 'password'); // Simple mock password check
-
-    if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      this.currentUserSubject.next(user);
-      return of(true);
-    }
-    return of(false);
+    return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
+      map(response => {
+        if (response && response.token) {
+          const user: User = {
+            id: response.id,
+            username: response.username,
+            roles: response.roles,
+            token: response.token
+          };
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          return true;
+        }
+        return false;
+      })
+    );
   }
 
   register(username: string, password: string): Observable<boolean> {
-    // In a real app, this would be an API call to register a new user
-    if (this.mockUsers.some(u => u.username === username)) {
-      console.warn('Registration failed: Username already exists.');
-      return of(false); // Username already exists
-    }
-
-    const newUser: User = { username, role: 'alumni', token: `mock-${username}-token` };
-    this.mockUsers.push(newUser);
-    console.log('Mock user registered:', newUser);
-    // Automatically log in the new user
-    localStorage.setItem('currentUser', JSON.stringify(newUser));
-    this.currentUserSubject.next(newUser);
-    return of(true);
+    return this.http.post<any>(`${this.apiUrl}/signup`, { username, password, role: ['user'] }).pipe(
+      map(() => {
+        // After successful registration, we can either auto-login or redirect to login page
+        // For a better UX, let's auto-login
+        return this.login(username, password).pipe(map(() => true));
+      })
+    );
   }
 
   logout(): void {
@@ -70,6 +69,6 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.currentUserSubject.value?.role === 'admin';
+    return this.currentUserSubject.value?.roles.includes('ROLE_ADMIN') ?? false;
   }
 }

@@ -20,6 +20,11 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     }
 
     @Override
+    public List<NewsArticle> search(String searchTerm) {
+        return newsArticleRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCaseOrAuthorContainingIgnoreCase(searchTerm, searchTerm, searchTerm);
+    }
+
+    @Override
     public NewsArticle save(NewsArticle newsArticle) {
         return newsArticleRepository.save(newsArticle);
     }

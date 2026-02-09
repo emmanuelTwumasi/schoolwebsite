@@ -110,3 +110,42 @@ h3 {
   color: #666;
   font-style: italic;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  h3 {
+    font-size: 1.5rem;
+  }
+  .member-table-container th, .member-table-container td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+  .member-table-container select {
+    font-size: 0.8rem;
+    padding: 5px 8px;
+  }
+  .action-button {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+    margin-right: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  h3 {
+    font-size: 1.3rem;
+  }
+  .member-table-container th, .member-table-container td {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+  .member-table-container select {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+  }
+  .action-button {
+    padding: 4px 6px;
+    font-size: 0.7rem;
+    margin-right: 2px;
+  }
+}

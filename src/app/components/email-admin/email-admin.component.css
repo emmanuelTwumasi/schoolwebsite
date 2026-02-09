@@ -83,3 +83,65 @@ h3 {
   padding: 0.75rem;
   border-radius: 4px;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .email-admin-container {
+    padding: 1rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  .email-form-section {
+    padding: 1rem;
+  }
+  .form-group label {
+    font-size: 0.9rem;
+  }
+  .form-group input[type="text"],
+  .form-group textarea {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+  .form-actions {
+    justify-content: center; /* Center button on smaller screens */
+  }
+  .send-button {
+    width: 100%; /* Make button full width */
+    max-width: 300px;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+  .message-area {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .email-admin-container {
+    padding: 0.8rem;
+  }
+  h3 {
+    font-size: 1.3rem;
+  }
+  .email-form-section {
+    padding: 0.8rem;
+  }
+  .form-group label {
+    font-size: 0.85rem;
+  }
+  .form-group input[type="text"],
+  .form-group textarea {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .send-button {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  .message-area {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+}

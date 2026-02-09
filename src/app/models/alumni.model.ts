@@ -5,4 +5,8 @@ export interface Alumni {
   email: string;
   currentCity: string;
   profilePictureUrl?: string;
+  major?: string;
+  whatImDoingNow?: string;
+  status: 'pending' | 'approved' | 'rejected'; // New field for membership status
+  role: 'alumni' | 'admin'; // New field for user role
 }

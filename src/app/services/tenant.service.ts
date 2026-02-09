@@ -13,7 +13,7 @@ export class TenantService {
 
   private getTenantFromHost(): string {
     const hostname = window.location.hostname;
-    // For a real domain like 'stmarys.alumniconnect.com', the tenant is 'stmarys'
+    // For a real domain like 'stmarys.alumni-connect.com', the tenant is 'stmarys'
     const parts = hostname.split('.');
     if (parts.length >= 3) {
       return parts[0];

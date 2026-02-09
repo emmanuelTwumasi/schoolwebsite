@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { NewsArticle } from '../../models/news-article.model';
 import { NewsService } from '../../services/news.service';
 
@@ -10,10 +11,20 @@ import { NewsService } from '../../services/news.service';
 })
 export class NewsListComponent implements OnInit {
   newsArticles$: Observable<NewsArticle[]>;
+  private searchTermSubject = new BehaviorSubject<string>('');
 
   constructor(private newsService: NewsService) { }
 
   ngOnInit(): void {
-    this.newsArticles$ = this.newsService.getNewsForCurrentTenant();
+    this.newsArticles$ = this.searchTermSubject.pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      distinctUntilChanged(), // Only emit if value is different from previous value
+      switchMap((term: string) => this.newsService.searchNews(term))
+    );
+  }
+
+  onSearch(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.searchTermSubject.next(inputElement.value);
   }
 }

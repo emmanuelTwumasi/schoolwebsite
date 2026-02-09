@@ -76,3 +76,54 @@ h2 {
 .view-all-link:hover {
   text-decoration: underline;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .user-dashboard-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr; /* Stack cards vertically */
+    gap: 1.5rem;
+  }
+  .user-dashboard-container {
+    padding: 1rem;
+  }
+  .dashboard-card h3 {
+    font-size: 1.3rem;
+  }
+  .item-preview h4 {
+    font-size: 1.1rem;
+  }
+  .item-preview p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-dashboard-container {
+    padding: 0.8rem;
+  }
+  .dashboard-card {
+    padding: 1rem;
+  }
+  .dashboard-card h3 {
+    font-size: 1.2rem;
+  }
+  .item-preview h4 {
+    font-size: 1rem;
+  }
+  .item-preview p {
+    font-size: 0.85rem;
+  }
+  .view-all-link {
+    font-size: 0.9rem;
+  }
+}

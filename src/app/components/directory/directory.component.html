@@ -1,5 +1,10 @@
 <div class="directory-container">
   <h2>Alumni Directory</h2>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search alumni by name, major, city, or year..." (input)="onSearch($event)">
+  </div>
+
   <div class="alumni-grid">
     <div *ngFor="let alumnus of alumni$ | async" class="alumni-card">
       <img [src]="alumnus.profilePictureUrl || 'assets/profiles/default-avatar.png'" alt="Profile picture of {{ alumnus.name }}" class="profile-picture">
@@ -7,8 +12,12 @@
         <h3>{{ alumnus.name }}</h3>
         <p>Class of {{ alumnus.graduationYear }}</p>
         <p>Living in {{ alumnus.currentCity }}</p>
+        <p *ngIf="alumnus.major">Major: {{ alumnus.major }}</p>
         <a href="mailto:{{ alumnus.email }}" class="contact-button">Contact</a>
       </div>
+    </div>
+    <div *ngIf="(alumni$ | async)?.length === 0" class="no-results">
+      <p>No alumni found matching your search criteria.</p>
     </div>
   </div>
 </div>

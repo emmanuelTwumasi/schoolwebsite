@@ -46,3 +46,32 @@
   font-size: 0.9rem;
   color: #666;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .album-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Fewer columns on tablet */
+    gap: 1rem;
+  }
+  .gallery-list-container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .album-grid {
+    grid-template-columns: 1fr; /* Single column on mobile */
+  }
+  .album-cover {
+    height: 180px;
+  }
+  .album-info {
+    padding: 0.8rem;
+  }
+  .album-info h3 {
+    font-size: 1.1rem;
+  }
+  .album-info p {
+    font-size: 0.8rem;
+  }
+}

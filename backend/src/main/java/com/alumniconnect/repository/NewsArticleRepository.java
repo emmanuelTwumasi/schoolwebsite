@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface NewsArticleRepository extends JpaRepository<NewsArticle, Long> {
     List<NewsArticle> findByTenantId(String tenantId);
+
+    // New search method
+    List<NewsArticle> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCaseOrAuthorContainingIgnoreCase(String title, String content, String author);
 }

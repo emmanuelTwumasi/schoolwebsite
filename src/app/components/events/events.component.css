@@ -2,6 +2,28 @@
   padding: 2rem;
 }
 
+.search-bar {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.search-bar input {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-bar input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.2);
+}
+
 .event-card {
   display: flex;
   align-items: center;
@@ -25,6 +47,7 @@
   margin-right: 1.5rem;
   min-width: 70px;
   text-align: center;
+  flex-shrink: 0; /* Prevent date block from shrinking */
 }
 
 .event-date .month {
@@ -50,4 +73,64 @@
 
 .event-details .description {
   margin-top: 0.5rem;
+}
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+  color: #666;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .events-container {
+    padding: 1rem;
+  }
+
+  .event-card {
+    padding: 1rem;
+    flex-direction: column; /* Stack date and details vertically */
+    align-items: flex-start;
+  }
+
+  .event-date {
+    margin-right: 0;
+    margin-bottom: 1rem; /* Add space below date when stacked */
+    width: 100%; /* Make date block full width */
+    min-width: unset;
+    padding: 0.8rem;
+  }
+
+  .event-date .day {
+    font-size: 1.8rem;
+  }
+
+  .event-details h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-card {
+    padding: 0.8rem;
+  }
+
+  .event-date {
+    padding: 0.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .event-date .day {
+    font-size: 1.5rem;
+  }
+
+  .event-details h3 {
+    font-size: 1.1rem;
+  }
+
+  .event-details .location,
+  .event-details .description {
+    font-size: 0.9rem;
+  }
 }

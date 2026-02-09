@@ -1,16 +1,66 @@
 .admin-dashboard-container {
   padding: 2rem;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
-h2, h3 {
+h2 {
   color: var(--primary-color);
   margin-bottom: 1.5rem;
   text-align: center;
+}
+
+h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.admin-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-nav button {
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.admin-nav button:hover {
+  background-color: #d0d0d0;
+}
+
+.admin-nav button.active {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border-color: var(--primary-color);
+}
+
+.admin-nav button.active:hover {
+  filter: brightness(1.1);
+}
+
+.dashboard-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.dashboard-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .theme-settings {
@@ -82,4 +132,159 @@ h2, h3 {
 
 .save-button:hover {
   filter: brightness(1.1);
+}
+
+/* Member List Table Styling (already responsive with overflow-x) */
+.member-list {
+  overflow-x: auto;
+}
+
+.member-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #fff;
+}
+
+.member-list th,
+.member-list td {
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.member-list th {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.member-list tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.member-list tr:hover {
+  background-color: #e9e9e9;
+}
+
+.action-button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-right: 5px;
+  transition: background-color 0.2s;
+}
+
+.action-button.view-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.action-button.view-button:hover {
+  background-color: #0056b3;
+}
+
+.action-button.edit-button {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.action-button.edit-button:hover {
+  background-color: #e0a800;
+}
+
+.action-button.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.action-button.delete-button:hover {
+  background-color: #c82333;
+}
+
+.no-members {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .admin-dashboard-container {
+    padding: 1.5rem;
+  }
+  .admin-nav button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard-container {
+    padding: 1rem;
+  }
+  .admin-nav {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center;
+    gap: 8px;
+  }
+  .admin-nav button {
+    width: 90%; /* Make buttons wider */
+    max-width: 300px;
+  }
+  h2, h3 {
+    font-size: 1.5rem;
+  }
+  .setting-group label {
+    font-size: 0.9rem;
+  }
+  .setting-group input[type="text"],
+  .setting-group input[type="color"],
+  .save-button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+  .member-list th, .member-list td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+  .action-button {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-dashboard-container {
+    padding: 0.8rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  .admin-nav button {
+    font-size: 0.85rem;
+    padding: 7px 10px;
+  }
+  .setting-group input[type="text"],
+  .setting-group input[type="color"],
+  .save-button {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.8rem;
+  }
+  .member-list th, .member-list td {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+  .action-button {
+    padding: 4px 6px;
+    font-size: 0.7rem;
+    margin-right: 3px;
+  }
 }
