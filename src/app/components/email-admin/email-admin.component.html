@@ -1,0 +1,24 @@
+<div class="email-admin-container">
+  <h3>Send Mass Email Newsletter</h3>
+
+  <div class="email-form-section">
+    <form (ngSubmit)="sendNewsletter()">
+      <div class="form-group">
+        <label for="emailSubject">Subject:</label>
+        <input type="text" id="emailSubject" [(ngModel)]="emailSubject" name="emailSubject" required>
+      </div>
+      <div class="form-group">
+        <label for="emailBody">Email Body:</label>
+        <textarea id="emailBody" [(ngModel)]="emailBody" name="emailBody" rows="10" required></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="send-button">Send Newsletter</button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="sendSuccess !== null" class="message-area">
+    <p *ngIf="sendSuccess" class="success-message">Newsletter sent successfully (mock)!</p>
+    <p *ngIf="!sendSuccess" class="error-message">Failed to send newsletter (mock). Please check console for details.</p>
+  </div>
+</div>

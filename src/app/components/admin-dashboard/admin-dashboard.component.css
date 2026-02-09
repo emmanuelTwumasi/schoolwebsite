@@ -1,0 +1,85 @@
+.admin-dashboard-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+h2, h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.theme-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.setting-group label {
+  font-weight: bold;
+  color: #333;
+}
+
+.setting-group input[type="text"],
+.setting-group input[type="color"] {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.setting-group input[type="color"] {
+  width: 100px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.setting-group span {
+  font-family: monospace;
+  color: #555;
+  margin-left: 0.5rem;
+}
+
+.preview-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 150px;
+  object-fit: contain;
+  margin-top: 1rem;
+  border: 1px dashed #ccc;
+  padding: 0.5rem;
+  background-color: #f0f0f0;
+}
+
+.save-button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-end;
+  margin-top: 2rem;
+}
+
+.save-button:hover {
+  filter: brightness(1.1);
+}

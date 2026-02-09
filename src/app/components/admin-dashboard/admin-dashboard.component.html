@@ -1,0 +1,32 @@
+<div class="admin-dashboard-container">
+  <h2>Administrator Dashboard</h2>
+  <h3>Theme Customization</h3>
+
+  <div *ngIf="currentTheme$ | async as theme" class="theme-settings">
+    <div class="setting-group">
+      <label for="logoUrl">School Logo URL:</label>
+      <input type="text" id="logoUrl" [value]="theme.logoUrl" placeholder="e.g., assets/logos/myschool-logo.png">
+      <img [src]="theme.logoUrl" alt="Current Logo" class="preview-image">
+    </div>
+
+    <div class="setting-group">
+      <label for="colorPrimary">Primary Color:</label>
+      <input type="color" id="colorPrimary" [value]="theme.colorPrimary">
+      <span>{{ theme.colorPrimary }}</span>
+    </div>
+
+    <div class="setting-group">
+      <label for="colorSecondary">Secondary Color:</label>
+      <input type="color" id="colorSecondary" [value]="theme.colorSecondary">
+      <span>{{ theme.colorSecondary }}</span>
+    </div>
+
+    <div class="setting-group">
+      <label for="bannerImageUrl">Banner Image URL:</label>
+      <input type="text" id="bannerImageUrl" [value]="theme.bannerImageUrl || ''" placeholder="e.g., assets/banners/myschool-banner.jpg">
+      <img *ngIf="theme.bannerImageUrl" [src]="theme.bannerImageUrl" alt="Current Banner" class="preview-image">
+    </div>
+
+    <button class="save-button">Save Changes (Not yet functional)</button>
+  </div>
+</div>

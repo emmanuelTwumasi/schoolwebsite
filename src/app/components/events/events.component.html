@@ -1,0 +1,19 @@
+<div class="events-container">
+  <h2>Upcoming Events</h2>
+  <div *ngIf="(events$ | async)?.length > 0; else noEvents">
+    <div *ngFor="let event of events$ | async" class="event-card">
+      <div class="event-date">
+        <span class="month">{{ event.date | date: 'MMM' }}</span>
+        <span class="day">{{ event.date | date: 'd' }}</span>
+      </div>
+      <div class="event-details">
+        <h3>{{ event.title }}</h3>
+        <p class="location">{{ event.location }}</p>
+        <p class="description">{{ event.description }}</p>
+      </div>
+    </div>
+  </div>
+  <ng-template #noEvents>
+    <p>There are no upcoming events at this time. Please check back later!</p>
+  </ng-template>
+</div>

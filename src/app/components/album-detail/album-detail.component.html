@@ -1,0 +1,15 @@
+<div *ngIf="album$ | async as album; else loadingOrNotFound" class="album-detail-container">
+  <h2>{{ album.title }}</h2>
+  <p *ngIf="album.description">{{ album.description }}</p>
+
+  <div class="photo-grid">
+    <div *ngFor="let photo of album.photos" class="photo-item">
+      <img [src]="photo.url" alt="{{ photo.caption || album.title }}" class="album-photo">
+      <p *ngIf="photo.caption" class="photo-caption">{{ photo.caption }}</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingOrNotFound>
+  <p>Loading album or album not found...</p>
+</ng-template>

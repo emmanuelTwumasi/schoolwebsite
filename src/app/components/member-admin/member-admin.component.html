@@ -1,0 +1,47 @@
+<div class="member-admin-container">
+  <h3>Manage Members</h3>
+
+  <div *ngIf="(alumniMembers$ | async)?.length > 0; else noMembers" class="member-table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Graduation Year</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let member of alumniMembers$ | async">
+          <td>{{ member.name }}</td>
+          <td>{{ member.graduationYear }}</td>
+          <td>{{ member.email }}</td>
+          <td>
+            <span class="status-badge status-{{ member.status }}">{{ member.status }}</span>
+          </td>
+          <td>
+            <select [ngModel]="member.role" (ngModelChange)="changeRole(member.id, $event)">
+              <option value="alumni">Alumni</option>
+              <option value="admin">Admin</option>
+            </select>
+          </td>
+          <td>
+            <ng-container *ngIf="member.status === 'pending'">
+              <button class="action-button approve-button" (click)="approveMember(member.id)">Approve</button>
+              <button class="action-button reject-button" (click)="rejectMember(member.id)">Reject</button>
+            </ng-container>
+            <ng-container *ngIf="member.status === 'approved'">
+              <button class="action-button reject-button" (click)="rejectMember(member.id)">Deactivate</button>
+            </ng-container>
+            <!-- Add other actions like 'View Profile' if needed -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noMembers>
+    <p class="no-items-message">No alumni members found for this school.</p>
+  </ng-template>
+</div>

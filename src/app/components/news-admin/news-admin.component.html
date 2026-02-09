@@ -1,0 +1,63 @@
+<div class="news-admin-container">
+  <h3>Manage News & Announcements</h3>
+
+  <div class="news-form-section">
+    <h4>{{ isEditing ? 'Edit Article' : 'Add New Article' }}</h4>
+    <form (ngSubmit)="saveArticle()">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" [(ngModel)]="newArticle.title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="content" [(ngModel)]="newArticle.content" name="content" rows="5" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="publishDate">Publish Date:</label>
+        <input type="date" id="publishDate" [(ngModel)]="newArticle.publishDate" name="publishDate">
+      </div>
+      <div class="form-group">
+        <label for="imageUrl">Image URL:</label>
+        <input type="text" id="imageUrl" [(ngModel)]="newArticle.imageUrl" name="imageUrl" placeholder="e.g., assets/news/my-image.jpg">
+      </div>
+      <div class="form-group">
+        <label for="author">Author:</label>
+        <input type="text" id="author" [(ngModel)]="newArticle.author" name="author">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="save-button">{{ isEditing ? 'Update Article' : 'Add Article' }}</button>
+        <button type="button" class="cancel-button" *ngIf="isEditing" (click)="resetForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="news-list-section">
+    <h4>Existing Articles</h4>
+    <div *ngIf="(newsArticles$ | async)?.length > 0; else noArticles" class="news-table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publish Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article of newsArticles$ | async">
+            <td>{{ article.title }}</td>
+            <td>{{ article.author }}</td>
+            <td>{{ article.publishDate | date: 'shortDate' }}</td>
+            <td>
+              <button class="action-button edit-button" (click)="editArticle(article)">Edit</button>
+              <button class="action-button delete-button" (click)="deleteArticle(article.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noArticles>
+      <p class="no-items-message">No news articles found.</p>
+    </ng-template>
+  </div>
+</div>

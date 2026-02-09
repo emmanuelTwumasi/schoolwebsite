@@ -1,0 +1,19 @@
+<div class="gallery-list-container">
+  <h2>Photo Galleries</h2>
+  <div *ngIf="(photoAlbums$ | async)?.length > 0; else noAlbums">
+    <div class="album-grid">
+      <div *ngFor="let album of photoAlbums$ | async" class="album-card">
+        <a [routerLink]="['/gallery', album.id]">
+          <img [src]="album.coverPhotoUrl || 'assets/galleries/default-album-cover.png'" alt="Cover photo for {{ album.title }}" class="album-cover">
+          <div class="album-info">
+            <h3>{{ album.title }}</h3>
+            <p>{{ album.description }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <ng-template #noAlbums>
+    <p>No photo albums available at this time. Check back later!</p>
+  </ng-template>
+</div>

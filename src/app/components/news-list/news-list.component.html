@@ -1,0 +1,21 @@
+<div class="news-list-container">
+  <h2>Latest News & Announcements</h2>
+  <div *ngIf="(newsArticles$ | async)?.length > 0; else noNews">
+    <div *ngFor="let article of newsArticles$ | async" class="news-card">
+      <img *ngIf="article.imageUrl" [src]="article.imageUrl" alt="Image for {{ article.title }}" class="news-image">
+      <div class="news-content">
+        <h3>{{ article.title }}</h3>
+        <p class="news-meta">
+          <span *ngIf="article.author">By {{ article.author }} | </span>
+          <span>{{ article.publishDate | date: 'longDate' }}</span>
+        </p>
+        <p>{{ article.content }}</p>
+        <!-- In a real app, you might have a routerLink to a detail page for the article -->
+        <a href="#" class="read-more">Read More</a>
+      </div>
+    </div>
+  </div>
+  <ng-template #noNews>
+    <p>No news or announcements at this time. Please check back later!</p>
+  </ng-template>
+</div>

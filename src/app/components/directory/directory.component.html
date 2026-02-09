@@ -1,0 +1,14 @@
+<div class="directory-container">
+  <h2>Alumni Directory</h2>
+  <div class="alumni-grid">
+    <div *ngFor="let alumnus of alumni$ | async" class="alumni-card">
+      <img [src]="alumnus.profilePictureUrl || 'assets/profiles/default-avatar.png'" alt="Profile picture of {{ alumnus.name }}" class="profile-picture">
+      <div class="alumni-info">
+        <h3>{{ alumnus.name }}</h3>
+        <p>Class of {{ alumnus.graduationYear }}</p>
+        <p>Living in {{ alumnus.currentCity }}</p>
+        <a href="mailto:{{ alumnus.email }}" class="contact-button">Contact</a>
+      </div>
+    </div>
+  </div>
+</div>

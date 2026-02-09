@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # MySQL Database Service
+  db:
+    image: mysql:8.0
+    container_name: alumniconnect-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: alumniconnect_db
+      MYSQL_USER: your_mysql_user
+      MYSQL_PASSWORD: your_mysql_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - alumniconnect-net
+
+  # Spring Boot Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: alumniconnect-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/alumniconnect_db
+      SPRING_DATASOURCE_USERNAME: your_mysql_user
+      SPRING_DATASOURCE_PASSWORD: your_mysql_password
+      JWT_SECRET: ${JWT_SECRET} # Use environment variable from host
+    networks:
+      - alumniconnect-net
+
+  # Angular Frontend Service (with Nginx)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alumniconnect-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - alumniconnect-net
+
+volumes:
+  db_data:
+
+networks:
+  alumniconnect-net:
+    driver: bridge

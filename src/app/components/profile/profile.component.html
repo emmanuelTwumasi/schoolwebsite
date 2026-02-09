@@ -1,0 +1,60 @@
+<div *ngIf="alumnus$ | async as alumnus; else loadingOrNotFound" class="profile-container">
+  <h2>{{ alumnus.name }}'s Profile</h2>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <img [src]="alumnus.profilePictureUrl || 'assets/profiles/default-avatar.png'" alt="Profile picture of {{ alumnus.name }}" class="profile-picture">
+      <div class="profile-header-info">
+        <h3>{{ alumnus.name }}</h3>
+        <p>Class of {{ alumnus.graduationYear }}</p>
+        <p *ngIf="alumnus.major">{{ alumnus.major }}</p>
+      </div>
+    </div>
+
+    <div class="profile-details">
+      <div *ngIf="!isEditing; else editForm">
+        <p><strong>Email:</strong> {{ alumnus.email }}</p>
+        <p><strong>Current City:</strong> {{ alumnus.currentCity }}</p>
+        <p *ngIf="alumnus.whatImDoingNow"><strong>What I'm Doing Now:</strong> {{ alumnus.whatImDoingNow }}</p>
+        <button (click)="toggleEdit()" class="edit-button">Edit Profile</button>
+      </div>
+
+      <ng-template #editForm>
+        <form (ngSubmit)="saveProfile()">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" [(ngModel)]="editableAlumnus!.name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" [(ngModel)]="editableAlumnus!.email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="currentCity">Current City:</label>
+            <input type="text" id="currentCity" [(ngModel)]="editableAlumnus!.currentCity" name="currentCity">
+          </div>
+          <div class="form-group">
+            <label for="major">Major:</label>
+            <input type="text" id="major" [(ngModel)]="editableAlumnus!.major" name="major">
+          </div>
+          <div class="form-group">
+            <label for="whatImDoingNow">What I'm Doing Now:</label>
+            <textarea id="whatImDoingNow" [(ngModel)]="editableAlumnus!.whatImDoingNow" name="whatImDoingNow" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="profilePictureUrl">Profile Picture URL:</label>
+            <input type="text" id="profilePictureUrl" [(ngModel)]="editableAlumnus!.profilePictureUrl" name="profilePictureUrl">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="save-button">Save Changes</button>
+            <button type="button" class="cancel-button" (click)="toggleEdit()">Cancel</button>
+          </div>
+        </form>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingOrNotFound>
+  <p>Loading profile or profile not found. Please ensure you are logged in.</p>
+</ng-template>
