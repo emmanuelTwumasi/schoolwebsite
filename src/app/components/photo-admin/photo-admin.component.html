@@ -16,7 +16,6 @@
         <label for="coverPhotoUrl">Cover Photo URL:</label>
         <input type="text" id="coverPhotoUrl" [(ngModel)]="newAlbum.coverPhotoUrl" name="coverPhotoUrl" placeholder="e.g., assets/galleries/my-album-cover.jpg">
       </div>
-      <!-- For simplicity, photo management within an album is not implemented in this mock -->
       <div class="form-actions">
         <button type="submit" class="save-button">{{ isEditing ? 'Update Album' : 'Add Album' }}</button>
         <button type="button" class="cancel-button" *ngIf="isEditing" (click)="resetForm()">Cancel</button>
@@ -26,27 +25,29 @@
 
   <div class="album-list-section">
     <h4>Existing Albums</h4>
-    <div *ngIf="(photoAlbums$ | async)?.length > 0; else noAlbums" class="album-table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let album of photoAlbums$ | async">
-            <td>{{ album.title }}</td>
-            <td>{{ album.description }}</td>
-            <td>
-              <button class="action-button edit-button" (click)="editAlbum(album)">Edit</button>
-              <button class="action-button delete-button" (click)="deleteAlbum(album.id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <ng-container *ngIf="photoAlbums$ | async as photoAlbums">
+      <div *ngIf="photoAlbums.length > 0; else noAlbums" class="album-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let album of photoAlbums">
+              <td>{{ album.title }}</td>
+              <td>{{ album.description }}</td>
+              <td>
+                <button class="action-button edit-button" (click)="editAlbum(album)">Edit</button>
+                <button class="action-button delete-button" (click)="deleteAlbum(album.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
     <ng-template #noAlbums>
       <p class="no-items-message">No photo albums found.</p>
     </ng-template>
