@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
@@ -50,10 +50,8 @@ export class AuthService {
 
   register(username: string, password: string): Observable<boolean> {
     return this.http.post<any>(`${this.apiUrl}/signup`, { username, password, role: ['user'] }).pipe(
-      map(() => {
-        // After successful registration, we can either auto-login or redirect to login page
-        // For a better UX, let's auto-login
-        return this.login(username, password).pipe(map(() => true));
+      switchMap(() => {
+        return this.login(username, password);
       })
     );
   }

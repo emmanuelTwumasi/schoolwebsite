@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -18,9 +22,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // If already logged in, redirect to news or home
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/news']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -29,13 +32,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.username, this.password).subscribe(
       success => {
         if (success) {
-          this.router.navigate(['/news']); // Redirect to news page on successful login
+          this.router.navigate(['/dashboard']);
         } else {
           this.loginError = true;
         }
       },
-      error => {
-        console.error('Login error:', error);
+      () => {
         this.loginError = true;
       }
     );

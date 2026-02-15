@@ -5,21 +5,22 @@
     <input type="text" placeholder="Search news by title, content, or author..." (input)="onSearch($event)">
   </div>
 
-  <div *ngIf="(newsArticles$ | async)?.length > 0; else noNews">
-    <div *ngFor="let article of newsArticles$ | async" class="news-card">
-      <img *ngIf="article.imageUrl" [src]="article.imageUrl" alt="Image for {{ article.title }}" class="news-image">
-      <div class="news-content">
-        <h3>{{ article.title }}</h3>
-        <p class="news-meta">
-          <span *ngIf="article.author">By {{ article.author }} | </span>
-          <span>{{ article.publishDate | date: 'longDate' }}</span>
-        </p>
-        <p>{{ article.content }}</p>
-        <!-- In a real app, you might have a routerLink to a detail page for the article -->
-        <a href="#" class="read-more">Read More</a>
+  <ng-container *ngIf="newsArticles$ | async as newsArticles">
+    <div *ngIf="newsArticles.length > 0; else noNews">
+      <div *ngFor="let article of newsArticles" class="news-card">
+        <img *ngIf="article.imageUrl" [src]="article.imageUrl" alt="Image for {{ article.title }}" class="news-image">
+        <div class="news-content">
+          <h3>{{ article.title }}</h3>
+          <p class="news-meta">
+            <span *ngIf="article.author">By {{ article.author }} | </span>
+            <span>{{ article.publishDate | date: 'longDate' }}</span>
+          </p>
+          <p>{{ article.content }}</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
   <ng-template #noNews>
     <p class="no-results">No news or announcements found matching your search criteria.</p>
   </ng-template>

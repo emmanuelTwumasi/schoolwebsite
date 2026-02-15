@@ -6,13 +6,16 @@ import com.alumniconnect.dto.MessageResponse;
 import com.alumniconnect.dto.SignupRequest;
 import com.alumniconnect.entity.ERole;
 import com.alumniconnect.entity.Role;
+import com.alumniconnect.entity.Tenant;
 import com.alumniconnect.entity.User;
 import com.alumniconnect.repository.RoleRepository;
+import com.alumniconnect.repository.TenantRepository;
 import com.alumniconnect.repository.UserRepository;
 import com.alumniconnect.security.JwtUtils;
 import com.alumniconnect.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,6 +43,9 @@ public class AuthController {
     RoleRepository roleRepository;
 
     @Autowired
+    TenantRepository tenantRepository;
+
+    @Autowired
     PasswordEncoder encoder;
 
     @Autowired
@@ -62,10 +68,13 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt,
                                                  userDetails.getId(),
                                                  userDetails.getUsername(),
+                                                 userDetails.getEmail(),
+                                                 userDetails.getTenant() != null ? userDetails.getTenant().getTenantId() : null,
                                                  roles));
     }
 
     @PostMapping("/signup")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
@@ -73,14 +82,29 @@ public class AuthController {
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        // Create new user's account
-        User user = new User(null, signUpRequest.getUsername(),
-                             encoder.encode(signUpRequest.getPassword()), new HashSet<>());
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Tenant adminTenant = userDetails.getTenant();
+
+        if (adminTenant == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Admin is not associated with a tenant. Cannot add users."));
+        }
+
+        User user = new User();
+        user.setUsername(signUpRequest.getUsername());
+        user.setEmail(signUpRequest.getEmail());
+        user.setPassword(encoder.encode(signUpRequest.getPassword()));
+        user.setTenant(adminTenant);
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null) {
+        if (strRoles == null || strRoles.isEmpty()) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
@@ -91,7 +115,6 @@ public class AuthController {
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
-
                         break;
                     default:
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)

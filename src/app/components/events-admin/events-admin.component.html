@@ -29,32 +29,33 @@
 
   <div class="event-list-section">
     <h4>Existing Events</h4>
-    <div *ngIf="(events$ | async)?.length > 0; else noEvents" class="event-table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Location</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let event of events$ | async">
-            <td>{{ event.title }}</td>
-            <td>{{ event.date | date: 'short' }}</td>
-            <td>{{ event.location }}</td>
-            <td>
-              <button class="action-button edit-button" (click)="editEvent(event)">Edit</button>
-              <button class="action-button delete-button" (click)="deleteEvent(event.id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <ng-container *ngIf="events$ | async as events">
+      <div *ngIf="events.length > 0; else noEvents" class="event-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let event of events">
+              <td>{{ event.title }}</td>
+              <td>{{ event.date | date: 'short' }}</td>
+              <td>{{ event.location }}</td>
+              <td>
+                <button class="action-button edit-button" (click)="editEvent(event)">Edit</button>
+                <button class="action-button delete-button" (click)="deleteEvent(event.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
     <ng-template #noEvents>
       <p class="no-items-message">No events found.</p>
     </ng-template>
-  </div
->
+  </div>
 </div>

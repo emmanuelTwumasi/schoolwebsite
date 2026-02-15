@@ -1,6 +1,6 @@
-<app-loader></app-loader> <!-- Add the loader component here -->
+<app-loader></app-loader>
 
-<div *ngIf="theme$ | async as theme" [style.setProperty]="'--primary-color', theme.colorPrimary" [style.setProperty]="'--secondary-color', theme.colorSecondary">
+<div *ngIf="theme$ | async as theme" [style.--primary-color]="theme.colorPrimary" [style.--secondary-color]="theme.colorSecondary">
   <header>
     <img [src]="theme.logoUrl" alt="School Logo" class="logo">
     <h1>Welcome to the Alumni Network</h1>

@@ -1,33 +1,37 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ThemeService } from './services/theme.service';
 import { Theme } from './models/theme.model';
-import { Observable } from 'rxjs';
-import { AuthService, User } from './services/auth.service'; // Import AuthService and User model
-import { Router } from '@angular/router'; // Import Router
+import { Observable, of } from 'rxjs';
+import { AuthService, User } from './services/auth.service';
+import { Router } from '@angular/router';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterModule, LoaderComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App implements OnInit {
-  theme$: Observable<Theme>;
-  currentUser$: Observable<User | null>; // Observable for current user
+  theme$: Observable<Theme> = of();
+  currentUser$: Observable<User | null> = of(null);
 
   constructor(
     private themeService: ThemeService,
-    private authService: AuthService, // Inject AuthService
-    private router: Router // Inject Router
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.theme$ = this.themeService.getTheme();
-    this.currentUser$ = this.authService.currentUser; // Subscribe to currentUser changes
+    this.currentUser$ = this.authService.currentUser;
   }
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']); // Redirect to login after logout
   }
 
   isAdmin(): boolean {

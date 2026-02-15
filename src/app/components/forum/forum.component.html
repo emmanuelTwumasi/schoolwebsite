@@ -1,28 +1,30 @@
 <div class="forum-container">
   <h2>Discussion Forum</h2>
-  <div *ngIf="(posts$ | async)?.length > 0; else noPosts">
-    <div *ngFor="let post of posts$ | async" class="post-card">
-      <div class="post-header">
-        <h3>{{ post.title }}</h3>
-        <p class="post-meta">By {{ post.author }} on {{ post.timestamp | date: 'medium' }}</p>
-      </div>
-      <div class="post-content">
-        <p>{{ post.content }}</p>
-      </div>
-      <div class="post-comments">
-        <h4>Comments ({{ post.comments.length }})</h4>
-        <div *ngIf="post.comments.length > 0; else noComments">
-          <div *ngFor="let comment of post.comments" class="comment-item">
-            <p class="comment-meta"><strong>{{ comment.author }}</strong> on {{ comment.timestamp | date: 'short' }}</p>
-            <p>{{ comment.content }}</p>
-          </div>
+  <ng-container *ngIf="posts$ | async as posts">
+    <div *ngIf="posts.length > 0; else noPosts">
+      <div *ngFor="let post of posts" class="post-card">
+        <div class="post-header">
+          <h3>{{ post.title }}</h3>
+          <p class="post-meta">By {{ post.author }} on {{ post.timestamp | date: 'medium' }}</p>
         </div>
-        <ng-template #noComments>
-          <p class="no-comments-message">No comments yet. Be the first to reply!</p>
-        </ng-template>
+        <div class="post-content">
+          <p>{{ post.content }}</p>
+        </div>
+        <div class="post-comments">
+          <h4>Comments ({{ post.comments.length }})</h4>
+          <div *ngIf="post.comments.length > 0; else noComments">
+            <div *ngFor="let comment of post.comments" class="comment-item">
+              <p class="comment-meta"><strong>{{ comment.author }}</strong> on {{ comment.timestamp | date: 'short' }}</p>
+              <p>{{ comment.content }}</p>
+            </div>
+          </div>
+          <ng-template #noComments>
+            <p class="no-comments-message">No comments yet. Be the first to reply!</p>
+          </ng-template>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
   <ng-template #noPosts>
     <p>No discussion posts available at this time. Start a new conversation!</p>
   </ng-template>
