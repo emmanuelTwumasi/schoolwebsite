@@ -24,9 +24,10 @@ export class DirectoryComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this.alumniService.searchAlumni(term))
     );
+    this.searchTermSubject.next(''); // Initial load
   }
 
-  onSearch(event: Event): void {
+  onSearch(event: any): void {
     const inputElement = event.target as HTMLInputElement;
     this.searchTermSubject.next(inputElement.value);
   }

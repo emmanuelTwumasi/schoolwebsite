@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Event as AppEvent } from '../../models/event.model'; // Renaming to avoid conflict with DOM Event
+import { Event as AppEvent } from '../../models/event.model';
 import { EventService } from '../../services/event.service';
 
 @Component({
@@ -24,9 +24,10 @@ export class EventsComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this.eventService.searchEvents(term))
     );
+    this.searchTermSubject.next(''); // Initial load
   }
 
-  onSearch(event: any): void { // Changed type to any to avoid DOM Event conflict
+  onSearch(event: any): void {
     const inputElement = event.target as HTMLInputElement;
     this.searchTermSubject.next(inputElement.value);
   }

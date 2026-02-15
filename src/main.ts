@@ -11,11 +11,15 @@ import { ErrorInterceptor } from './app/services/error.interceptor';
 import { AuthInterceptor } from './app/services/auth.interceptor';
 import { LoaderInterceptor } from './app/services/loader.interceptor';
 
+// This is the modern, standalone-based way to start the application.
+// It bypasses the need for app.module.ts entirely.
 bootstrapApplication(App, {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
     importProvidersFrom(FormsModule),
+
+    // Register all interceptors, which are a form of provider.
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
